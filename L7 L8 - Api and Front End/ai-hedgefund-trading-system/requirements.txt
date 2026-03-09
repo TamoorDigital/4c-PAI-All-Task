@@ -1,0 +1,11 @@
+pandas
+numpy
+ccxt
+ta
+flask
+flask-cors
+torch
+scikit-learn
+stable-baselines3
+sqlalchemy
+websocket-client

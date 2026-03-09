@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Scraper Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ================= LOADER OVERLAY ================= -->
+<div id="loader-overlay">
+    <div class="loader-box">
+        <div class="spinner"></div>
+        <p>Scraping emails, please wait...</p>
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+    </div>
+</div>
+
+<h2 class="main-title">Email Scraper Tool</h2>
+
+<!-- ================= SINGLE URL FORM ================= -->
+<form method="POST" onsubmit="startSingleLoader()">
+    <input type="hidden" name="_sig">
+
+    <h3>Scrape Single Website</h3>
+
+    <input type="text" name="url" placeholder="https://example.com" required>
+
+    <label class="checkbox-row">
+        <input type="checkbox" name="subpages">
+        Scrape Subpages
+    </label>
+
+    <button type="submit">Fetch Emails</button>
+</form>
+
+<hr>
+
+<!-- ================= EXCEL UPLOAD FORM ================= -->
+<form method="POST" enctype="multipart/form-data" onsubmit="startExcelLoader()">
+    <input type="hidden" name="_sig">
+
+    <h3>Upload Excel File</h3>
+    <p class="hint-text">Excel must contain a column named <b>urls</b></p>
+
+    <input type="file" name="file" accept=".xlsx" required>
+
+    <button type="submit">Upload & Scrape</button>
+</form>
+
+<!-- ================= COLUMN NAME ERROR ================= -->
+{% if column_error %}
+<div id="no-email-message">
+    ❌ {{ column_error }}
+</div>
+{% endif %}
+
+<!-- ================= NO EMAIL FOUND (SINGLE URL) ================= -->
+{% if no_email_found %}
+<div id="no-email-message">
+    ❌ No email found from this website.
+</div>
+{% endif %}
+
+<hr>
+
+<!-- ================= RESULTS TABLE ================= -->
+{% if results %}
+<h3 class="results-title">Scraped Results</h3>
+
+<table id="results-table">
+    <tr>
+        <th>Website URL</th>
+        <th>Email</th>
+    </tr>
+
+    {% for row in results %}
+    <tr>
+        <td>{{ row.URL }}</td>
+        <td>{{ row.Email }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<!-- ================= ACTION BUTTONS ================= -->
+{% if download_file %}
+<div id="action-buttons">
+    <a href="/download?file={{ download_file }}&sig={{ sig }}">
+        <button type="button">⬇ Download Excel</button>
+    </a>
+
+    <button type="button" onclick="clearResults()" class="clear-btn">
+        🧹 Clear Results
+    </button>
+</div>
+{% endif %}
+
+
+<footer id="protected-footer">
+    This tool is made by <strong>Muhammad Tamoor</strong> – AI Engineer & Automation Expert
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

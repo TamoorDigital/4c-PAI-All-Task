@@ -1,0 +1,22 @@
+{
+"manifest_version":3,
+"name":"AI Trade Signal",
+"version":"1.0",
+"permissions":["activeTab","scripting"],
+"host_permissions":[
+"https://www.tradingview.com/*",
+"https://www.binance.com/*"
+],
+"content_scripts":[
+{
+"matches":[
+"https://www.tradingview.com/*",
+"https://www.binance.com/*"
+],
+"js":["content.js"]
+}
+],
+"action":{
+"default_popup":"popup.html"
+}
+}
